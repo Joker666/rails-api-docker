@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    web:
+        build: .
+        image: docker/demo
+        restart: "no"
+        environment:
+            - DBHOST=postgresql
+            - DBUSER=postgres
+            - DBPASS=password
+        ports:
+            - 3000:3000
+        depends_on:
+            - postgresql
+
+    postgresql:
+        image: postgres
+        restart: "no"
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_DB: docker_rails_development
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+        volumes:
+            - postgresdb:/var/lib/postgresql/data/
+
+volumes:
+    postgresdb:
